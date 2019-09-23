@@ -15,4 +15,4 @@ The homework pdf has the basic instructions, and you should definitely read the 
 
 
 #### Testing
-Automated tests will be present for Problem 2 and for parts of Problem 3. In particular, the individual performance of your functions will be tested in Problem 3, but I'll have to play through myself to make sure your game is playing as expected. So test it yourself!
+Automated tests will be present for Problem 2 and for parts of Problem 3. In particular, the individual performance of your functions will be tested in Problem 3, and tests will be run to see if you output the correct 'Win' or 'Lose' strings over an entire round, but I'll have to play through myself to make sure other formatting and information is printed as expected. So test it yourself!

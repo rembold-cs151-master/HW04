@@ -52,7 +52,7 @@ def generate_status(word, letters_guessed):
     pass #<--- remove this once you actually add your code below
 
 
-def remaining_guesses(curr_rem__guesses, letter_guessed, word):
+def remaining_guesses(curr_rem_guesses, letter_guessed, word):
     """
     Each time a guess is made the program needs to determine
     if it should add 1 to the incorrect guesses score. This function
