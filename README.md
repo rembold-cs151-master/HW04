@@ -1,10 +1,11 @@
 # Homework 4
+![](https://github.com/<user_info>/workflows/Autotesting/badge.svg)
 
 Assignment Status: PENDING
 
 _Please change the above to DONE when you finish and want the assignment to be graded!_
 
-Due the night of Sep 26 at midnight 
+Due the night of February 21 at midnight 
 
 
 ## Instructions
@@ -15,4 +16,4 @@ The homework pdf has the basic instructions, and you should definitely read the 
 
 
 #### Testing
-Automated tests will be present for Problem 2 and for parts of Problem 3. In particular, the individual performance of your functions will be tested in Problem 3, and tests will be run to see if you output the correct 'Win' or 'Lose' strings over an entire round, but I'll have to play through myself to make sure other formatting and information is printed as expected. So test it yourself!
+Automated tests will be present for Problem 2 and for small parts of Problem 3. Problem 3 is very open-ended, so it is difficult to auto-test much of it. Make sure you meet all the requirements!

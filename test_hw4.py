@@ -12,7 +12,6 @@ import random
 import math
 
 import Prob2
-import Prob3
 
 def numcheck(num, ans, tol=0.02):
     return (ans*(1-tol) < num < ans*(1+tol))
@@ -61,57 +60,7 @@ class Test_Prob2:
 
 
 class Test_Prob3:
-    def test_status1(self):
-        student = Prob3.generate_status('fish','ih')
-        actual = '_i_h'
-        assert student == actual, 'Incorrect status line returned'
-
-    def test_status2(self):
-        student = Prob3.generate_status('zebra','ebr')
-        actual = '_ebr_'
-        assert student == actual, 'Incorrect status line returned'
-
-    def test_remain_guesses1(self):
-        student = Prob3.remaining_guesses(7, 'a', 'abc')
-        actual = 7
-        assert student == actual, 'Remaining guesses should have remained constant'
-
-    def test_remain_guesses2(self):
-        student = Prob3.remaining_guesses(7, 'd', 'abc')
-        actual = 6
-        assert student == actual, 'Remaining guesses should have remained gone down'
-
-    def test_game_won_fish(self):
-        inputs = ['f','i','s','h']
-        with mock.patch('builtins.input', side_effect=inputs):
-            student = Prob3.play('fish')
-            actual = 'Win'
-            assert student == actual, "Play doesn't return 'Win' when it should"
-
-    def test_game_won_aardvark(self):
-        inputs = ['j','a','d','v','r','k']
-        with mock.patch('builtins.input', side_effect=inputs):
-            student = Prob3.play('aardvark')
-            actual = 'Win'
-            assert student == actual, "Play doesn't return 'Win' when it should"
-
-    def test_game_lost_pirate(self):
-        inputs = ['z','o','i','u','s','n','l','b','q','m','k']
-        with mock.patch('builtins.input', side_effect=inputs):
-            student = Prob3.play('pirate')
-            actual = 'Lose'
-            assert student == actual, "Play doesn't return 'Lose' when it should"
-
-    def test_game_lost_rock(self):
-        inputs = ['z','o','i','u','s','n','l','b','q','m','k','j']
-        with mock.patch('builtins.input', side_effect=inputs):
-            student = Prob3.play('rock')
-            actual = 'Lose'
-            assert student == actual, "Play doesn't return 'Lose' when it should"
-
-    def test_game_lost_stupid_rock(self):
-        inputs = ['a']*10
-        with mock.patch('builtins.input', side_effect=inputs):
-            student = Prob3.play('rock')
-            actual = 'Lose'
-            assert student == actual, "Repeated bad guesses do not result in 'Lose' when it should"
+    def test_used_while_loop(self):
+        with open('Prob3.py', 'r') as f:
+            filestr = ''.join(f.readlines())
+        assert filestr.count('def') >= 5, '\nIt does not look like you defined enough new object functions? You should have at least 3 in addition to the functions I already had defined for you.'
