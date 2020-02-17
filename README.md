@@ -14,6 +14,7 @@ The homework pdf has the basic instructions, and you should definitely read the 
  - [ ] Code for Problem 2 should be done in the `Prob2.py` file already in the repository. 
  - [ ] Code for Problem 4 should be done in the `Prob3.py` file already in the repository. 
 
+![BoatAnimation](Images/BoatMovement.gif)
 
 #### Testing
 Automated tests will be present for Problem 2 and for small parts of Problem 3. Problem 3 is very open-ended, so it is difficult to auto-test much of it. Make sure you meet all the requirements!
