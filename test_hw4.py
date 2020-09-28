@@ -47,19 +47,19 @@ class Test_Prob3:
         msgs = ["hello", "fishsticks", "papaya"]
         sols = ["aciit", "rojajkofuj", "npnpvp"]
         for w,s in zip(msgs, sols):
-            student = to_obenglobish(w)
+            student = encrypt(w, self.KEY)
             assert student == s, f"{w} encrypted to {student} but should have been {s}."
 
     def test_non_alphabetic_characters(self):
         msgs = ["hello!", "fishsticks and food", "I'm here now!"]
         sols = ["aciit!", "rojajkofuj phg rttg", "O'd acqc htm!"]
         for w,s in zip(msgs, sols):
-            student = to_obenglobish(w)
+            student = encrypt(w, self.KEY)
             assert student == s, f"{w} encrypted to {student} but should have been {s}."
 
     def test_capitalization(self):
         msgs = ["Hello!", "Fishsticks and FooD", "I'm here NOW!"]
-        sols = ["Aciit!", "Rojajkofuj phg FttG", "O'd acqc HTM!"]
+        sols = ["Aciit!", "Rojajkofuj phg RttG", "O'd acqc HTM!"]
         for w,s in zip(msgs, sols):
-            student = to_obenglobish(w)
+            student = encrypt(w, self.KEY)
             assert student == s, f"{w} encrypted to {student} but should have been {s}."
