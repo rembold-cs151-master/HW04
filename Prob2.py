@@ -4,26 +4,27 @@
 # Estimate of time spent (hr):
 ##################################################
 
-import math
+def to_obenglobish(word):
+    """
+    Function to convert an English word into its Obenglobish
+    equivalent.
 
-def eqn_solver(): # <-- make sure you add the desired inputs
-    pass # <-- comment out once you add your code
-
-
-
-
-
-
-
-
-
+    Inputs:
+        word (string): word to be translated to Obenglobish
+    Outputs:
+        (string): the Obenglobish translation of the word
+    """
+    pass # Add your code below and remove this pass!
 
 
 
 
-# All code should be within the eqn_solver function for this
-# problem. Nothing outside!
+
+
 
 if __name__ == '__main__':
-    # To test your function, edit the line below to whatever inputs you want it to have and then run this entire script
-    eqn_solver()
+    # Some testing printouts for your use!
+    print(f"to_obenglobish('english') gives {to_obenglobish('english')}.")
+    print(f"to_obenglobish('gooiest') gives {to_obenglobish('gooiest')}.")
+    print(f"to_obenglobish('amaze')   gives {to_obenglobish('amaze')}.")
+    print(f"to_obenglobish('rot')     gives {to_obenglobish('rot')}.")
