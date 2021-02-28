@@ -51,15 +51,15 @@ class Test_Prob3:
             assert student == s, f"{w} encrypted to {student} but should have been {s}."
 
     def test_non_alphabetic_characters(self):
-        msgs = ["hello!", "fishsticks and food", "I'm here now!"]
-        sols = ["aciit!", "rojajkofuj phg rttg", "O'd acqc htm!"]
+        msgs = ["hello!", "fishsticks and food", "i'm here now!"]
+        sols = ["aciit!", "rojajkofuj phg rttg", "o'd acqc htm!"]
         for w,s in zip(msgs, sols):
             student = encrypt(w, self.KEY)
             assert student == s, f"{w} encrypted to {student} but should have been {s}."
 
     def test_capitalization(self):
-        msgs = ["Hello!", "Fishsticks and FooD", "I'm here NOW!"]
-        sols = ["Aciit!", "Rojajkofuj phg RttG", "O'd acqc HTM!"]
+        msgs = ["Hello", "Fishsticks and FooD", "Give me that NOW"]
+        sols = ["Aciit", "Rojajkofuj phg RttG", "Lobc dc kapk HTM"]
         for w,s in zip(msgs, sols):
             student = encrypt(w, self.KEY)
             assert student == s, f"{w} encrypted to {student} but should have been {s}."

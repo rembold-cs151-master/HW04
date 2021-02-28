@@ -18,7 +18,7 @@ from pgl import GWindow, GCompound, GPolygon
 
 
 if __name__ == '__main__':
-    # If you put your main code in a functio, don't forget
+    # If you put your main code in a function, don't forget
     # to call it down here so that it gets called when
     # your program is run!
     pass

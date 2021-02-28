@@ -8,7 +8,7 @@
 def encrypt(message, key):
     """
     Function to take a given message and encrypt it using
-    the given key and a letter-substitution cipher method.
+    the given key and a letter-substitution cipher.
 
     Inputs:
         message (string): message to be encrypted
@@ -31,3 +31,5 @@ def encrypt(message, key):
 if __name__ == '__main__':
     KEY = "QWERTYUIOPASDFGHJKLZXCVBNM"
     print(encrypt("Squeamish Ossifrage", KEY))
+    print(encrypt("ABC - 123", KEY))
+    print(encrypt("Isn't this great?", KEY))

@@ -17,24 +17,22 @@ import urllib.request
 # Version information
 
 PGL_VERSION = 0.94
-PGL_BUGFIX = 1
-PGL_DATE = "10-Sep-20"
+PGL_BUGFIX = 2
+PGL_DATE = "9-Oct-20"
 
 # Conditional imports
 
 try:
-    import tkinter  # pylint: disable=import-error
-
+    import tkinter                          # pylint: disable=import-error
     try:
-        import tkinter.font as tk_font  # pylint: disable=import-error
+        import tkinter.font as tk_font      # pylint: disable=import-error
     except Exception:
-        import tk_font  # pylint: disable=import-error
+        import tk_font                      # pylint: disable=import-error
 except Exception as e:
-    print("Could not load tkinter: " + str(e))
+    print('Could not load tkinter: ' + str(e))
 
 try:
-    from PIL import ImageTk, Image  # pylint: disable=import-error
-
+    from PIL import ImageTk, Image          # pylint: disable=import-error
     _image_model = "PIL"
 except Exception:
     _image_model = "PhotoImage"
@@ -42,13 +40,11 @@ except Exception:
 spyder_flag = False
 
 try:
-    import spydercustomize as customize  # pylint: disable=import-error
-
+    import spydercustomize as customize     # pylint: disable=import-error
     spyder_flag = True
 except Exception:
     try:
-        import sitecustomize as customize  # pylint: disable=import-error
-
+        import sitecustomize as customize   # pylint: disable=import-error
         spyder_flag = True
     except Exception:
         pass
@@ -56,7 +52,6 @@ except Exception:
 if spyder_flag:
     try:
         sys_clear_post_mortem = customize.clear_post_mortem
-
         def patched_clear_post_mortem():
             customize.clear_post_mortem = sys_clear_post_mortem
             try:
@@ -65,13 +60,11 @@ if spyder_flag:
             except Exception:
                 pass
             sys_clear_post_mortem()
-
         customize.clear_post_mortem = patched_clear_post_mortem
     except Exception:
         pass
 
 # Class GWindow
-
 
 class GWindow(object):
     """
@@ -79,14 +72,13 @@ class GWindow(object):
     objects.
     """
 
-    # Public constants
+# Public constants
 
     DEFAULT_WIDTH = 500
     DEFAULT_HEIGHT = 300
     MIN_WAKEUP = 20
-    DEFAULT_COLOR = "white"
 
-    # Constructor: GWindow
+# Constructor: GWindow
 
     def __init__(self, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT):
         """
@@ -112,25 +104,21 @@ class GWindow(object):
         self._tk.protocol("WM_DELETE_WINDOW", self._delete_window)
         for w in tk.winfo_children():
             w.destroy()
-        self._canvas = tkinter.Canvas(
-            tk, width=width, height=height, highlightthickness=0
-        )
-        self._canvas.configure(bg=self.DEFAULT_COLOR)
+        self._canvas = tkinter.Canvas(tk, width=width, height=height,
+                                      highlightthickness=0, background='white')
         try:
             self._canvas.pack()
         except:
             pass
         if spyder_flag:
-
             def cancel_topmost():
                 tk.attributes("-topmost", False)
-
             tk.attributes("-topmost", True)
             tk.focus_force()
             self._canvas.after(0, cancel_topmost)
         self._canvas.update()
-        self._images = {}
-        self._timers = []
+        self._images = { }
+        self._timers = [ ]
         self._base = GCompound()
         self._base._gw = self
         self._event_manager = _EventManager(self)
@@ -145,7 +133,7 @@ class GWindow(object):
             return self._canvas is other._canvas
         return False
 
-    # Public method: close
+# Public method: close
 
     def close(self):
         """
@@ -153,7 +141,7 @@ class GWindow(object):
         """
         self._delete_window()
 
-    # Public method: event_loop
+# Public method: event_loop
 
     def event_loop(self):
         """
@@ -162,7 +150,7 @@ class GWindow(object):
         self._event_loop_started = True
         tkinter._root.mainloop()
 
-    # Public method: request_focus
+# Public method: request_focus
 
     def request_focus(self):
         """
@@ -172,7 +160,7 @@ class GWindow(object):
         """
         tkinter._root.canvas.focus_set()
 
-    # Public method: clear
+# Public method: clear
 
     def clear(self):
         """
@@ -180,7 +168,7 @@ class GWindow(object):
         """
         self._base.remove_all()
 
-    # Public method: get_width
+# Public method: get_width
 
     def get_width(self):
         """
@@ -188,7 +176,7 @@ class GWindow(object):
         """
         return self._window_width
 
-    # Public method: get_height
+# Public method: get_height
 
     def get_height(self):
         """
@@ -196,7 +184,7 @@ class GWindow(object):
         """
         return self._window_height
 
-    # Public method: add_event_listener
+# Public method: add_event_listener
 
     def add_event_listener(self, type, fn):
         """
@@ -204,7 +192,7 @@ class GWindow(object):
         """
         self._event_manager.add_event_listener(type, fn)
 
-    # Public method: repaint
+# Public method: repaint
 
     def repaint(self):
         """
@@ -212,7 +200,7 @@ class GWindow(object):
         """
         pass
 
-    # Public method: set_window_title
+# Public method: set_window_title
 
     def set_window_title(self, title):
         """
@@ -221,7 +209,7 @@ class GWindow(object):
         self._window_title = title
         self._tk.title(title)
 
-    # Public method: get_window_title
+# Public method: get_window_title
 
     def get_window_title(self):
         """
@@ -229,7 +217,7 @@ class GWindow(object):
         """
         return self._window_title
 
-    # Public method: add
+# Public method: add
 
     def add(self, gobj, x=None, y=None):
         """
@@ -240,7 +228,7 @@ class GWindow(object):
         """
         self._base.add(gobj, x, y)
 
-    # Public method: remove
+# Public method: remove
 
     def remove(self, gobj):
         """
@@ -248,7 +236,7 @@ class GWindow(object):
         """
         self._base.remove(gobj)
 
-    # Public method: get_element_at
+# Public method: get_element_at
 
     def get_element_at(self, x, y):
         """
@@ -257,7 +245,7 @@ class GWindow(object):
         """
         return self._base.get_element_at(x, y)
 
-    # Public method: create_timer
+# Public method: create_timer
 
     def create_timer(self, fn, delay):
         """
@@ -267,7 +255,7 @@ class GWindow(object):
         """
         return GTimer(self, fn, delay)
 
-    # Public method: set_timeout
+# Public method: set_timeout
 
     def set_timeout(self, fn, delay):
         """
@@ -279,7 +267,7 @@ class GWindow(object):
         timer.start()
         return timer
 
-    # Public method: set_interval
+# Public method: set_interval
 
     def set_interval(self, fn, delay):
         """
@@ -292,7 +280,7 @@ class GWindow(object):
         timer.start()
         return timer
 
-    # Public method: pause
+# Public method: pause
 
     def pause(self, delay):
         """
@@ -301,12 +289,12 @@ class GWindow(object):
         the event queue to update the contents of the window.
         """
         n_cycles = delay // GWindow.MIN_WAKEUP
-        for i in range(n_cycles):  # pylint: disable=unused-variable
+        for i in range(n_cycles):           # pylint: disable=unused-variable
             self._tk.update_idletasks()
             self._tk.update()
             time.sleep(delay / n_cycles / 1000)
 
-    # Public static method: exit
+# Public static method: exit
 
     @staticmethod
     def exit():
@@ -316,7 +304,7 @@ class GWindow(object):
         """
         sys.exit()
 
-    # Public static method: get_program_name
+# Public static method: get_program_name
 
     @staticmethod
     def get_program_name():
@@ -325,7 +313,7 @@ class GWindow(object):
         """
         return _get_program_name()
 
-    # Public static method: get_screen_width
+# Public static method: get_screen_width
 
     @staticmethod
     def get_screen_width():
@@ -334,7 +322,7 @@ class GWindow(object):
         """
         return _get_screen_width()
 
-    # Public static method: get_screen_height
+# Public static method: get_screen_height
 
     def get_screen_height():
         """
@@ -342,7 +330,7 @@ class GWindow(object):
         """
         return _get_screen_height()
 
-    # Public static method: convert_color_to_rgb
+# Public static method: convert_color_to_rgb
 
     def convert_color_to_rgb(color_name):
         """
@@ -351,7 +339,7 @@ class GWindow(object):
         """
         return _convert_color_to_rgb(color_name)
 
-    # Public static method: convert_rgb_to_color
+# Public static method: convert_rgb_to_color
 
     @staticmethod
     def convert_rgb_to_color(rgb):
@@ -363,7 +351,7 @@ class GWindow(object):
         """
         return _convert_rgb_to_color(rgb)
 
-    # Private method: _delete_window
+# Private method: _delete_window
 
     def _delete_window(self):
         """
@@ -381,7 +369,7 @@ class GWindow(object):
         except:
             pass
 
-    # Private method: _start_event_loop
+# Private method: _start_event_loop
 
     def _start_event_loop(self):
         """
@@ -390,7 +378,7 @@ class GWindow(object):
         if not self._event_loop_started:
             self.event_loop()
 
-    # Private method: _rebuild
+# Private method: _rebuild
 
     def _rebuild(self):
         """
@@ -400,7 +388,7 @@ class GWindow(object):
         self._canvas.delete("all")
         self._base._install(self, _GTransform())
 
-    # Define camel-case names
+# Define camel-case names
 
     eventLoop = event_loop
     requestFocus = request_focus
@@ -419,16 +407,14 @@ class GWindow(object):
     convertColorToRGB = convert_color_to_rgb
     convertRGBToColor = convert_rgb_to_color
 
-    # Allow British spelling
+# Allow British spelling
 
     convert_colour_to_rgb = convert_color_to_rgb
     convert_rgb_to_colour = convert_rgb_to_color
     convertColourToRGB = convert_color_to_rgb
     convertRGBToColour = convert_rgb_to_color
 
-
 # Class: GObject
-
 
 class GObject(object):
     """
@@ -438,7 +424,7 @@ class GObject(object):
     individual subclasses.
     """
 
-    # Constructor: GObject
+# Constructor: GObject
 
     def __init__(self):
         """
@@ -456,7 +442,7 @@ class GObject(object):
         self._tkid = None
         self._gw = None
 
-    # Public method: get_x
+# Public method: get_x
 
     def get_x(self):
         """
@@ -464,7 +450,7 @@ class GObject(object):
         """
         return self._x
 
-    # Public method: get_y
+# Public method: get_y
 
     def get_y(self):
         """
@@ -472,7 +458,7 @@ class GObject(object):
         """
         return self._y
 
-    # Public method: get_location
+# Public method: get_location
 
     def get_location(self):
         """
@@ -480,7 +466,7 @@ class GObject(object):
         """
         return GPoint(self._x, self._y)
 
-    # Public method: set_location
+# Public method: set_location
 
     def set_location(self, x, y):
         """
@@ -494,7 +480,7 @@ class GObject(object):
         self._y = y
         self._update_location()
 
-    # Public method: move
+# Public method: move
 
     def move(self, dx, dy):
         """
@@ -503,7 +489,7 @@ class GObject(object):
         """
         self.set_location(self._x + dx, self._y + dy)
 
-    # Public method: move_polar
+# Public method: move_polar
 
     def move_polar(self, r, theta):
         """
@@ -514,7 +500,7 @@ class GObject(object):
         dy = -r * math.sin(math.radians(theta))
         self.move(dx, dy)
 
-    # Public method: get_width
+# Public method: get_width
 
     def get_width(self):
         """
@@ -523,7 +509,7 @@ class GObject(object):
         """
         return self.get_bounds().get_width()
 
-    # Public method: get_height
+# Public method: get_height
 
     def get_height(self):
         """
@@ -532,7 +518,7 @@ class GObject(object):
         """
         return self.get_bounds().get_height()
 
-    # Public method: get_size
+# Public method: get_size
 
     def get_size(self):
         """
@@ -541,7 +527,7 @@ class GObject(object):
         bounds = self.get_bounds()
         return GDimension(bounds.get_width(), bounds.get_height())
 
-    # Public method: set_line_width
+# Public method: set_line_width
 
     def set_line_width(self, line_width):
         """
@@ -550,7 +536,7 @@ class GObject(object):
         self._line_width = line_width
         self._update_properties(width=line_width)
 
-    # Public method: get_line_width
+# Public method: get_line_width
 
     def get_line_width(self):
         """
@@ -558,7 +544,7 @@ class GObject(object):
         """
         return self._line_width
 
-    # Public method: set_color
+# Public method: set_color
 
     def set_color(self, color):
         """
@@ -572,7 +558,7 @@ class GObject(object):
         self._color = _convert_rgb_to_color(rgb)
         self._update_color()
 
-    # Public method: get_color
+# Public method: get_color
 
     def get_color(self):
         """
@@ -583,7 +569,7 @@ class GObject(object):
         """
         return self._color
 
-    # Public method: scale
+# Public method: scale
 
     def scale(self, sf):
         """
@@ -591,7 +577,7 @@ class GObject(object):
         """
         raise Exception("Not yet implemented")
 
-    # Public method: rotate
+# Public method: rotate
 
     def rotate(self, theta):
         """
@@ -601,7 +587,7 @@ class GObject(object):
         self._angle += theta
         self._update_rotation()
 
-    # Public method: set_visible
+# Public method: set_visible
 
     def set_visible(self, flag):
         """
@@ -610,7 +596,7 @@ class GObject(object):
         self._visible = flag
         self._update_visible()
 
-    # Public method: is_visible
+# Public method: is_visible
 
     def is_visible(self):
         """
@@ -618,7 +604,7 @@ class GObject(object):
         """
         return self._visible
 
-    # Public method: send_forward
+# Public method: send_forward
 
     def send_forward(self):
         """
@@ -629,7 +615,7 @@ class GObject(object):
         if parent is not None:
             parent._send_forward(self)
 
-    # Public method: send_to_front
+# Public method: send_to_front
 
     def send_to_front(self):
         """
@@ -642,7 +628,7 @@ class GObject(object):
         if parent is not None:
             parent._send_to_front(self)
 
-    # Public method: send_backward
+# Public method: send_backward
 
     def send_backward(self):
         """
@@ -653,7 +639,7 @@ class GObject(object):
         if parent is not None:
             parent._send_backward(self)
 
-    # Public method: send_to_back
+# Public method: send_to_back
 
     def send_to_back(self):
         """
@@ -666,7 +652,7 @@ class GObject(object):
         if parent is not None:
             parent._send_to_back(self)
 
-    # Public method: contains
+# Public method: contains
 
     def contains(self, x, y):
         """
@@ -681,7 +667,7 @@ class GObject(object):
             return False
         return bounds.contains(x, y)
 
-    # Public method: get_parent
+# Public method: get_parent
 
     def get_parent(self):
         """
@@ -695,7 +681,7 @@ class GObject(object):
         """
         return self._parent
 
-    # Abstract method: get_type
+# Abstract method: get_type
 
     def get_type(self):
         """
@@ -704,7 +690,7 @@ class GObject(object):
         """
         raise Exception("get_type is not defined in the GObject class")
 
-    # Abstract method: get_bounds
+# Abstract method: get_bounds
 
     def get_bounds(self):
         """
@@ -719,7 +705,7 @@ class GObject(object):
         """
         raise Exception("get_bounds is not defined in the GObject class")
 
-    # Protected method: _update_properties
+# Protected method: _update_properties
 
     def _update_properties(self, **options):
         """
@@ -732,7 +718,7 @@ class GObject(object):
         tkc = gw._canvas
         tkc.itemconfig(self._tkid, **options)
 
-    # Protected method: _update_location
+# Protected method: _update_location
 
     def _update_location(self):
         """
@@ -755,7 +741,7 @@ class GObject(object):
         dy = (self._y + offy) - coords[1]
         tkc.move(self._tkid, dx, dy)
 
-    # Protected method: _update_color
+# Protected method: _update_color
 
     def _update_color(self):
         """
@@ -764,7 +750,7 @@ class GObject(object):
         """
         self._update_properties(fill=self._color)
 
-    # Protected method: _update_visible
+# Protected method: _update_visible
 
     def _update_visible(self):
         """
@@ -775,7 +761,7 @@ class GObject(object):
         else:
             self._update_properties(state=tkinter.HIDDEN)
 
-    # Protected method: _update_rotation
+# Protected method: _update_rotation
 
     def _update_rotation(self):
         """
@@ -784,7 +770,7 @@ class GObject(object):
         """
         raise Exception("Rotation not yet implemented for this class")
 
-    # Private method: _get_window
+# Private method: _get_window
 
     def _get_window(self):
         """
@@ -797,7 +783,7 @@ class GObject(object):
             gobj = gobj._parent
         return gobj._gw
 
-    # Private abstract method: _install
+# Private abstract method: _install
 
     def _install(self, target, ctm):
         """
@@ -806,7 +792,7 @@ class GObject(object):
         """
         raise Exception("_install is not defined in the GObject class")
 
-    # Define camel-case names
+# Define camel-case names
 
     getX = get_x
     getY = get_y
@@ -828,23 +814,21 @@ class GObject(object):
     sendToBack = send_to_back
     getParent = get_parent
 
-    # Allow British spelling
+# Allow British spelling
 
     set_colour = set_color
     get_colour = get_color
     setColour = set_color
     getColour = get_color
 
-
 # Class: GFillableObject
-
 
 class GFillableObject(GObject):
     """
     This abstract class is the superclass of all objects that are fillable.
     """
 
-    # Constructor: GFillableObject
+# Constructor: GFillableObject
 
     def __init__(self):
         """
@@ -855,7 +839,7 @@ class GFillableObject(GObject):
         self._fill_flag = False
         self._fill_color = ""
 
-    # Public method: set_filled
+# Public method: set_filled
 
     def set_filled(self, flag):
         """
@@ -865,7 +849,7 @@ class GFillableObject(GObject):
         self._fill_flag = flag
         self._update_color()
 
-    # Public method: is_filled
+# Public method: is_filled
 
     def is_filled(self):
         """
@@ -873,7 +857,7 @@ class GFillableObject(GObject):
         """
         return self._fill_flag
 
-    # Public method: set_fill_color
+# Public method: set_fill_color
 
     def set_fill_color(self, color):
         """
@@ -883,7 +867,7 @@ class GFillableObject(GObject):
         self._fill_color = _convert_rgb_to_color(rgb)
         self._update_color()
 
-    # Public method: get_fill_color
+# Public method: get_fill_color
 
     def get_fill_color(self):
         """
@@ -893,7 +877,7 @@ class GFillableObject(GObject):
         """
         return self._fill_color
 
-    # Override method: _update_color
+# Override method: _update_color
 
     def _update_color(self):
         """
@@ -908,23 +892,21 @@ class GFillableObject(GObject):
             fill = ""
         self._update_properties(outline=outline, fill=fill)
 
-    # Define camel-case names
+# Define camel-case names
 
     setFilled = set_filled
     isFilled = is_filled
     setFillColor = set_fill_color
     getFillColor = get_fill_color
 
-    # Allow British spelling
+# Allow British spelling
 
     set_fill_colour = set_fill_color
     get_fill_colour = get_fill_color
     setFillColour = set_fill_color
     getFillColour = get_fill_color
 
-
 # Class: GRect
-
 
 class GRect(GFillableObject):
     """
@@ -932,7 +914,7 @@ class GRect(GFillableObject):
     a rectangular box.
     """
 
-    # Constructor: GRect
+# Constructor: GRect
 
     def __init__(self, a1, a2, a3=None, a4=None):
         """
@@ -962,7 +944,7 @@ class GRect(GFillableObject):
         self._height = height
         self.set_location(x, y)
 
-    # Public method: set_size
+# Public method: set_size
 
     def set_size(self, width, height=None):
         """
@@ -977,11 +959,10 @@ class GRect(GFillableObject):
             return
         tkc = gw._canvas
         coords = tkc.coords(self._tkid)
-        tkc.coords(
-            self._tkid, coords[0], coords[1], coords[0] + width, coords[1] + height
-        )
+        tkc.coords(self._tkid, coords[0], coords[1],
+                   coords[0] + width, coords[1] + height)
 
-    # Public method: set_bounds
+# Public method: set_bounds
 
     def set_bounds(self, x, y=None, width=None, height=None):
         """
@@ -993,7 +974,7 @@ class GRect(GFillableObject):
         self.set_location(x, y)
         self.set_size(width, height)
 
-    # Override method: get_bounds
+# Override method: get_bounds
 
     def get_bounds(self):
         """
@@ -1001,7 +982,7 @@ class GRect(GFillableObject):
         """
         return GRectangle(self._x, self._y, self._width, self._height)
 
-    # Override method: get_type
+# Override method: get_type
 
     def get_type(self):
         """
@@ -1009,7 +990,7 @@ class GRect(GFillableObject):
         """
         return "GRect"
 
-    # Override method: _install
+# Override method: _install
 
     def _install(self, target, ctm):
         """
@@ -1018,23 +999,22 @@ class GRect(GFillableObject):
         gw = target
         tkc = gw._canvas
         self._ctm_base = ctm
-        lctm = _GTransform(rotation=self._angle + ctm._rotation, sf=self._sf * ctm._sf)
+        lctm = _GTransform(rotation=self._angle + ctm._rotation,
+                           sf=self._sf * ctm._sf)
         p0 = ctm.transform(self._x, self._y)
         if lctm._rotation == 0:
             self._rep = "Rectangle"
             p1 = ctm.transform(self._x + self._width, self._y + self._height)
-            self._tkid = tkc.create_rectangle(
-                p0._x, p0._y, p1._x, p1._y, width=self._line_width
-            )
+            self._tkid = tkc.create_rectangle(p0._x, p0._y, p1._x, p1._y,
+                                              width=self._line_width)
         else:
             self._rep = "Polygon"
-            coords = self._create_rect_coords(
-                p0._x, p0._y, self._width, self._height, lctm
-            )
+            coords = self._create_rect_coords(p0._x, p0._y,
+                                              self._width, self._height, lctm)
             self._tkid = tkc.create_polygon(*coords, width=self._line_width)
         self._update_color()
 
-    # Override method: _update_rotation
+# Override method: _update_rotation
 
     def _update_rotation(self):
         """
@@ -1047,48 +1027,39 @@ class GRect(GFillableObject):
             else:
                 tkc = gw._canvas
                 ctm = self._ctm_base
-                lctm = _GTransform(
-                    rotation=self._angle + ctm._rotation, sf=self._sf * ctm._sf
-                )
+                lctm = _GTransform(rotation=self._angle + ctm._rotation,
+                                   sf=self._sf * ctm._sf)
                 p0 = ctm.transform(self._x, self._y)
-                coords = self._create_rect_coords(
-                    p0._x, p0._y, self._width, self._height, lctm
-                )
+                coords = self._create_rect_coords(p0._x, p0._y,
+                                                  self._width, self._height,
+                                                  lctm)
                 tkc.coords(self._tkid, *coords)
 
-    # Private method: _create_rect_coords
+# Private method: _create_rect_coords
 
     def _create_rect_coords(self, x, y, width, height, ctm):
         p1 = ctm.transform(width, 0)
         p2 = ctm.transform(width, height)
         p3 = ctm.transform(0, height)
-        return [x, y, x + p1._x, y + p1._y, x + p2._x, y + p2._y, x + p3._x, y + p3._y]
+        return [ x, y,
+                 x + p1._x, y + p1._y,
+                 x + p2._x, y + p2._y,
+                 x + p3._x, y + p3._y ]
 
-    # Override method: __str__
+# Override method: __str__
 
     def __str__(self):
-        return (
-            "GRect("
-            + str(self._x)
-            + ", "
-            + str(self._y)
-            + ", "
-            + str(self._width)
-            + ", "
-            + str(self._height)
-            + ")"
-        )
+        return ("GRect(" + str(self._x) + ", " + str(self._y) + ", " +
+                str(self._width) + ", " + str(self._height) + ")")
 
-    # Define camel-case names
+# Define camel-case names
 
     setSize = set_size
     setBounds = set_bounds
     getBounds = get_bounds
     getType = get_type
 
-
 # Class: GOval
-
 
 class GOval(GFillableObject):
     """
@@ -1096,7 +1067,7 @@ class GOval(GFillableObject):
     a rectangular box.
     """
 
-    # Constructor: GOval
+# Constructor: GOval
 
     def __init__(self, a1, a2, a3=None, a4=None):
         """
@@ -1126,7 +1097,7 @@ class GOval(GFillableObject):
         self._height = height
         self.set_location(x, y)
 
-    # Public method: set_size
+# Public method: set_size
 
     def set_size(self, width, height=None):
         """
@@ -1141,11 +1112,10 @@ class GOval(GFillableObject):
             return
         tkc = gw._canvas
         coords = tkc.coords(self._tkid)
-        tkc.coords(
-            self._tkid, coords[0], coords[1], coords[0] + width, coords[1] + height
-        )
+        tkc.coords(self._tkid, coords[0], coords[1],
+                   coords[0] + width, coords[1] + height)
 
-    # Public method: set_bounds
+# Public method: set_bounds
 
     def set_bounds(self, x, y=None, width=None, height=None):
         """
@@ -1157,7 +1127,7 @@ class GOval(GFillableObject):
         self.set_location(x, y)
         self.set_size(width, height)
 
-    # Override method: get_bounds
+# Override method: get_bounds
 
     def get_bounds(self):
         """
@@ -1165,7 +1135,7 @@ class GOval(GFillableObject):
         """
         return GRectangle(self._x, self._y, self._width, self._height)
 
-    # Override method: contains
+# Override method: contains
 
     def contains(self, x, y):
         rx = self._width / 2
@@ -1174,7 +1144,7 @@ class GOval(GFillableObject):
         ty = y - (self._y + ry)
         return (tx * tx) / (rx * rx) + (ty * ty) / (ry * ry) <= 1.0
 
-    # Override method: get_type
+# Override method: get_type
 
     def get_type(self):
         """
@@ -1182,7 +1152,7 @@ class GOval(GFillableObject):
         """
         return "GOval"
 
-    # Override method: _install
+# Override method: _install
 
     def _install(self, target, ctm):
         """
@@ -1191,24 +1161,24 @@ class GOval(GFillableObject):
         gw = target
         tkc = gw._canvas
         self._ctm_base = ctm
-        lctm = _GTransform(rotation=self._angle + ctm._rotation, sf=self._sf * ctm._sf)
+        lctm = _GTransform(rotation=self._angle + ctm._rotation,
+                           sf=self._sf * ctm._sf)
         p0 = ctm.transform(self._x, self._y)
         if lctm._rotation == 0:
             self._rep = "Oval"
             lctm = ctm.compose(_GTransform(sf=self._sf))
             p1 = ctm.transform(self._x + self._width, self._y + self._height)
-            self._tkid = tkc.create_oval(
-                p0._x, p0._y, p1._x, p1._y, width=self._line_width
-            )
+            self._tkid = tkc.create_oval(p0._x, p0._y, p1._x, p1._y,
+                                         width=self._line_width)
         else:
             self._rep = "Polygon"
-            coords = self._create_oval_coords(
-                p0._x, p0._y, self._width, self._height, lctm
-            )
-            self._tkid = tkc.create_polygon(*coords, width=self._line_width, smooth=1)
+            coords = self._create_oval_coords(p0._x, p0._y,
+                                              self._width, self._height, lctm)
+            self._tkid = tkc.create_polygon(*coords, width=self._line_width,
+                                            smooth=1)
         self._update_color()
 
-    # Override method: _update_rotation
+# Override method: _update_rotation
 
     def _update_rotation(self):
         """
@@ -1221,55 +1191,44 @@ class GOval(GFillableObject):
             else:
                 tkc = gw._canvas
                 ctm = self._ctm_base
-                lctm = _GTransform(
-                    rotation=self._angle + ctm._rotation, sf=self._sf * ctm._sf
-                )
+                lctm = _GTransform(rotation=self._angle + ctm._rotation,
+                                   sf=self._sf * ctm._sf)
                 p0 = ctm.transform(self._x, self._y)
-                coords = self._create_oval_coords(
-                    p0._x, p0._y, self._width, self._height, lctm
-                )
+                coords = self._create_oval_coords(p0._x, p0._y,
+                                                  self._width, self._height,
+                                                  lctm)
                 tkc.coords(self._tkid, *coords)
 
-    # Private method: _create_oval_coords
+# Private method: _create_oval_coords
 
     def _create_oval_coords(self, x, y, width, height, ctm):
         n = 16
         dth = 360 / n
         r1 = width / 2
         r2 = height / 2
-        coords = []
+        coords = [ ]
         for i in range(0, n):
             theta = math.radians(i * dth)
-            pt = ctm.transform(r1 + r1 * math.cos(theta), r2 - r2 * math.sin(theta))
+            pt = ctm.transform(r1 + r1 * math.cos(theta),
+                               r2 - r2 * math.sin(theta))
             coords.append(x + pt._x)
             coords.append(y + pt._y)
         return coords
 
-    # Override method: __str__
+# Override method: __str__
 
     def __str__(self):
-        return (
-            "GOval("
-            + str(self._x)
-            + ", "
-            + str(self._y)
-            + ", "
-            + str(self._width)
-            + ", "
-            + str(self._height)
-            + ")"
-        )
+        return ("GOval(" + str(self._x) + ", " + str(self._y) + ", " +
+                str(self._width) + ", " + str(self._height) + ")")
 
-    # Define camel-case names
+# Define camel-case names
 
     setSize = set_size
     setBounds = set_bounds
     getBounds = get_bounds
     getType = get_type
 
-
 # Class: GCompound
-
 
 class GCompound(GObject):
     """
@@ -1280,16 +1239,16 @@ class GCompound(GObject):
     to that location.
     """
 
-    # Constructor: GCompound
+# Constructor: GCompound
 
     def __init__(self):
         """
         Creates a <code>GCompound</code> with no internal components.
         """
         GObject.__init__(self)
-        self._contents = []
+        self._contents = [ ]
 
-    # Public method: add
+# Public method: add
 
     def add(self, gobj, x=None, y=None):
         """
@@ -1309,7 +1268,7 @@ class GCompound(GObject):
         else:
             gobj._install(self._gw, _GTransform())
 
-    # Public method: remove
+# Public method: remove
 
     def remove(self, gobj):
         """
@@ -1322,7 +1281,7 @@ class GCompound(GObject):
         if gw is not None:
             gw._rebuild()
 
-    # Public method: remove_all
+# Public method: remove_all
 
     def remove_all(self):
         """
@@ -1334,7 +1293,7 @@ class GCompound(GObject):
         if gw is not None:
             gw._rebuild()
 
-    # Public method: get_element_at
+# Public method: get_element_at
 
     def get_element_at(self, x, y):
         """
@@ -1347,7 +1306,7 @@ class GCompound(GObject):
                 return gobj
         return None
 
-    # Public method: get_element_count
+# Public method: get_element_count
 
     def get_element_count(self):
         """
@@ -1356,7 +1315,7 @@ class GCompound(GObject):
         """
         return len(self._contents)
 
-    # Public method: get_element
+# Public method: get_element
 
     def get_element(self, index):
         """
@@ -1365,7 +1324,7 @@ class GCompound(GObject):
         """
         return self._contents[index]
 
-    # Override method: get_bounds
+# Override method: get_bounds
 
     def get_bounds(self):
         """
@@ -1391,7 +1350,7 @@ class GCompound(GObject):
             y_max = max(y_max, y0 + bounds._y + bounds.get_height())
         return GRectangle(x_min, y_min, x_max - x_min, y_max - y_min)
 
-    # Public method: contains
+# Public method: contains
 
     def contains(self, x, y):
         """
@@ -1405,7 +1364,7 @@ class GCompound(GObject):
                 return True
         return False
 
-    # Override method: get_type
+# Override method: get_type
 
     def get_type(self):
         """
@@ -1413,12 +1372,12 @@ class GCompound(GObject):
         """
         return "GCompound"
 
-    # Public method: __str__
+# Public method: __str__
 
     def __str__(self):
         return "GCompound(...)"
 
-    # Override method: _update_location
+# Override method: _update_location
 
     def _update_location(self):
         """
@@ -1429,7 +1388,7 @@ class GCompound(GObject):
         if gw is not None:
             gw._rebuild()
 
-    # Override method: _update_rotation
+# Override method: _update_rotation
 
     def _update_rotation(self):
         """
@@ -1437,15 +1396,15 @@ class GCompound(GObject):
         """
         self._update_location()
 
-    # Override method: _install
+# Override method: _install
 
     def _install(self, target, ctm):
-        pt = ctm.transform(self._x, self._y)
-        ctm = ctm.compose(_GTransform(pt._x, pt._y, rotation=self._angle, sf=self._sf))
+        lctm = ctm.compose(_GTransform(self._x, self._y,
+                                       rotation=self._angle, sf=self._sf))
         for gobj in self._contents:
-            gobj._install(target, ctm)
+            gobj._install(target, lctm)
 
-    # Internal method: _send_forward
+# Internal method: _send_forward
 
     def _send_forward(self, gobj):
         index = self._find_gobject(gobj)
@@ -1458,7 +1417,7 @@ class GCompound(GObject):
             if gw is not None:
                 gw._rebuild()
 
-    # Internal method: _send_to_front
+# Internal method: _send_to_front
 
     def _send_to_front(self, gobj):
         index = self._find_gobject(gobj)
@@ -1471,7 +1430,7 @@ class GCompound(GObject):
             if gw is not None:
                 gw._rebuild()
 
-    # Internal method: _send_backward
+# Internal method: _send_backward
 
     def _send_backward(self, gobj):
         index = self._find_gobject(gobj)
@@ -1484,7 +1443,7 @@ class GCompound(GObject):
             if gw is not None:
                 gw._rebuild()
 
-    # Internal method: _send_to_back
+# Internal method: _send_to_back
 
     def _send_to_back(self, gobj):
         index = self._find_gobject(gobj)
@@ -1497,7 +1456,7 @@ class GCompound(GObject):
             if gw is not None:
                 gw._rebuild()
 
-    # Internal method: _find_gobject
+# Internal method: _find_gobject
 
     def _find_gobject(self, gobj):
         n = len(self._contents)
@@ -1506,14 +1465,14 @@ class GCompound(GObject):
                 return i
         return -1
 
-    # Internal method: _remove_at
+# Internal method: _remove_at
 
     def _remove_at(self, index):
         gobj = self._contents[index]
         self._contents.pop(index)
         gobj._parent = None
 
-    # Define camel-case names
+# Define camel-case names
 
     removeAll = remove_all
     getElementAt = get_element_at
@@ -1522,9 +1481,7 @@ class GCompound(GObject):
     getBounds = get_bounds
     getType = get_type
 
-
 # Class: GArc
-
 
 class GArc(GFillableObject):
     """
@@ -1543,7 +1500,7 @@ class GArc(GFillableObject):
     motion in a clockwise direction.
     """
 
-    # Constructor: GArc
+# Constructor: GArc
 
     def __init__(self, a1, a2, a3=None, a4=None, a5=None, a6=None):
         """
@@ -1579,7 +1536,7 @@ class GArc(GFillableObject):
         self._sweep = sweep
         self.set_location(x, y)
 
-    # Public method: set_start_angle
+# Public method: set_start_angle
 
     def set_start_angle(self, start):
         """
@@ -1588,7 +1545,7 @@ class GArc(GFillableObject):
         self._start = start
         self._update_properties(start=start)
 
-    # Public method: get_start_angle
+# Public method: get_start_angle
 
     def get_start_angle(self):
         """
@@ -1596,7 +1553,7 @@ class GArc(GFillableObject):
         """
         return self._start
 
-    # Public method: set_sweep_angle
+# Public method: set_sweep_angle
 
     def set_sweep_angle(self, sweep):
         """
@@ -1605,7 +1562,7 @@ class GArc(GFillableObject):
         self._sweep = sweep
         self._update_properties(extent=sweep)
 
-    # Public method: get_sweep_angle
+# Public method: get_sweep_angle
 
     def get_sweep_angle(self):
         """
@@ -1613,7 +1570,7 @@ class GArc(GFillableObject):
         """
         return self._sweep
 
-    # Public method: get_start_point
+# Public method: get_start_point
 
     def get_start_point(self):
         """
@@ -1621,7 +1578,7 @@ class GArc(GFillableObject):
         """
         return self._get_arc_point(self._start)
 
-    # Public method: get_end_point
+# Public method: get_end_point
 
     def get_end_point(self):
         """
@@ -1629,7 +1586,7 @@ class GArc(GFillableObject):
         """
         return self._get_arc_point(self._start + self._sweep)
 
-    # Public method: set_frame_rectangle
+# Public method: set_frame_rectangle
 
     def set_frame_rectangle(self, x, y=None, width=None, height=None):
         """
@@ -1644,19 +1601,19 @@ class GArc(GFillableObject):
             return
         tkc = gw._canvas
         coords = tkc.coords(self._tkid)
-        tkc.coords(
-            self._tkid, coords[0], coords[1], coords[0] + width, coords[1] + height
-        )
+        tkc.coords(self._tkid, coords[0], coords[1],
+                   coords[0] + width, coords[1] + height)
 
-    # Public method: get_frame_rectangle
+# Public method: get_frame_rectangle
 
     def get_frame_rectangle(self):
         """
         Returns the boundaries of the rectangle used to frame the arc.
         """
-        return GRectangle(self._x, self._y, self._frame_width, self._frame_height)
+        return GRectangle(self._x, self._y,
+                          self._frame_width, self._frame_height)
 
-    # Override method: set_filled
+# Override method: set_filled
 
     def set_filled(self, flag):
         """
@@ -1673,7 +1630,7 @@ class GArc(GFillableObject):
             style = tkinter.PIESLICE
         self._update_properties(style=style)
 
-    # Public method: get_bounds
+# Public method: get_bounds
 
     def get_bounds(self):
         """
@@ -1708,7 +1665,7 @@ class GArc(GFillableObject):
             y_max = max(y_max, cy)
         return GRectangle(x_min, y_min, x_max - x_min, y_max - y_min)
 
-    # Public method: contains
+# Public method: contains
 
     def contains(self, x, y):
         """
@@ -1730,7 +1687,7 @@ class GArc(GFillableObject):
                 return False
         return self._contains_angle(math.atan2(-dy, dx) * 180 / math.pi)
 
-    # Override method: get_type
+# Override method: get_type
 
     def get_type(self):
         """
@@ -1738,26 +1695,15 @@ class GArc(GFillableObject):
         """
         return "GArc"
 
-    # Public method: __str__
+# Public method: __str__
 
     def __str__(self):
-        return (
-            "GArc("
-            + str(self._x)
-            + ", "
-            + str(self._y)
-            + ", "
-            + str(self._frame_width)
-            + ", "
-            + str(self._frame_height)
-            + ", "
-            + str(self._start)
-            + ", "
-            + str(self._sweep)
-            + ")"
-        )
+        return ("GArc(" + str(self._x) + ", " + str(self._y) + ", " +
+                str(self._frame_width) + ", " +
+                str(self._frame_height) + ", " +
+                str(self._start) + ", " + str(self._sweep) + ")")
 
-    # Override method: _install
+# Override method: _install
 
     def _install(self, target, ctm):
         """
@@ -1765,57 +1711,44 @@ class GArc(GFillableObject):
         """
         gw = target
         tkc = gw._canvas
-        lctm = _GTransform(rotation=self._angle + ctm._rotation, sf=self._sf * ctm._sf)
+        lctm = _GTransform(rotation=self._angle + ctm._rotation,
+                           sf=self._sf * ctm._sf)
         p0 = ctm.transform(self._x, self._y)
         if lctm._rotation == 0:
             self._rep = "Arc"
             style = tkinter.ARC
             if self._fill_flag:
                 style = tkinter.PIESLICE
-            p1 = ctm.transform(
-                self._x + self._frame_width, self._y + self._frame_height
-            )
-            self._tkid = tkc.create_arc(
-                p0._x,
-                p0._y,
-                p1._x,
-                p1._y,
-                start=self._start,
-                extent=self._sweep,
-                width=self._line_width,
-                style=style,
-            )
+            p1 = ctm.transform(self._x + self._frame_width,
+                               self._y + self._frame_height)
+            self._tkid = tkc.create_arc(p0._x, p0._y, p1._x, p1._y,
+                                        start=self._start,
+                                        extent=self._sweep,
+                                        width=self._line_width,
+                                        style=style)
         else:
             self._rep = "Polygon"
             if self._fill_flag:
-                coords = self._create_arc_coords(
-                    p0._x,
-                    p0._y,
-                    self._frame_width,
-                    self._frame_height,
-                    self._start,
-                    self._sweep,
-                    True,
-                    lctm,
-                )
-                self._tkid = tkc.create_polygon(
-                    *coords, width=self._line_width, smooth=1
-                )
+                coords = self._create_arc_coords(p0._x, p0._y,
+                                                 self._frame_width,
+                                                 self._frame_height,
+                                                 self._start, self._sweep,
+                                                 True, lctm)
+                self._tkid = tkc.create_polygon(*coords,
+                                                width=self._line_width,
+                                                smooth=1)
             else:
-                coords = self._create_arc_coords(
-                    p0._x,
-                    p0._y,
-                    self._frame_width,
-                    self._frame_height,
-                    self._start,
-                    self._sweep,
-                    False,
-                    lctm,
-                )
-                self._tkid = tkc.create_line(*coords, width=self._line_width, smooth=1)
+                coords = self._create_arc_coords(p0._x, p0._y,
+                                                 self._frame_width,
+                                                 self._frame_height,
+                                                 self._start, self._sweep,
+                                                 False, lctm)
+                self._tkid = tkc.create_line(*coords,
+                                             width=self._line_width,
+                                             smooth=1)
         self._update_color()
 
-    # Override method: set_filled
+# Override method: set_filled
 
     def set_filled(self, flag):
         GFillableObject.set_filled(self, flag)
@@ -1823,7 +1756,7 @@ class GArc(GFillableObject):
         if gw is not None:
             gw._rebuild()
 
-    # Override method: _update_rotation
+# Override method: _update_rotation
 
     def _update_rotation(self):
         """
@@ -1833,22 +1766,16 @@ class GArc(GFillableObject):
         if gw is not None:
             tkc = gw._canvas
             ctm = self._ctm_base
-            lctm = _GTransform(
-                rotation=self._angle + ctm._rotation, sf=self._sf * ctm._sf
-            )
-            coords = self._create_arc_coords(
-                p0._x,
-                p0._y,
-                self._frame_width,
-                self._frame_height,
-                self._start,
-                self._sweep,
-                self._fill_flag,
-                lctm,
-            )
+            lctm = _GTransform(rotation=self._angle + ctm._rotation,
+                               sf=self._sf * ctm._sf)
+            coords = self._create_arc_coords(p0._x, p0._y,
+                                             self._frame_width,
+                                             self._frame_height,
+                                             self._start, self._sweep,
+                                             self._fill_flag, lctm)
             tkc.coords(self._tkid, *coords)
 
-    # Override method: _update_color
+# Override method: _update_color
 
     def _update_color(self):
         """
@@ -1863,7 +1790,7 @@ class GArc(GFillableObject):
         else:
             self._update_properties(fill=self._color)
 
-    # Private method: _create_arc_coords
+# Private method: _create_arc_coords
 
     def _create_arc_coords(self, x, y, width, height, start, sweep, fill, ctm):
         """
@@ -1875,29 +1802,20 @@ class GArc(GFillableObject):
         dth = sweep / n
         r1 = width / 2
         r2 = height / 2
-        coords = []
+        coords = [ ]
         for i in range(0, n + 1):
             theta = math.radians(start + i * dth)
-            pt = ctm.transform(r1 + r1 * math.cos(theta), r2 - r2 * math.sin(theta))
+            pt = ctm.transform(r1 + r1 * math.cos(theta),
+                               r2 - r2 * math.sin(theta))
             coords.append(x + pt._x)
             coords.append(y + pt._y)
         if fill:
             pt = ctm.transform(r1, r2)
-            center = [x + pt._x, y + pt._y]
+            center = [ x + pt._x, y + pt._y ]
             coords = center + coords[0:2] + coords + coords[-2:]
         return coords
-
-    # Private method: _get_arc_point
-
-    def _get_arc_point(self, theta):
-        rx = self._frame_width / 2
-        ry = self._frame_height / 2
-        cx = self._x + rx
-        cy = self._y + ry
-        radians = theta * math.pi / 180
-        return GPoint(cx + rx * math.cos(radians), cy - ry * math.sin(radians))
-
-    # Private method: _get_arc_point
+        
+# Private method: _get_arc_point
 
     def _get_arc_point(self, theta):
         rx = self._frame_width / 2
@@ -1907,7 +1825,17 @@ class GArc(GFillableObject):
         radians = theta * math.pi / 180
         return GPoint(cx + rx * math.cos(radians), cy - ry * math.sin(radians))
 
-    # Private method: _contains_angle
+# Private method: _get_arc_point
+
+    def _get_arc_point(self, theta):
+        rx = self._frame_width / 2
+        ry = self._frame_height / 2
+        cx = self._x + rx
+        cy = self._y + ry
+        radians = theta * math.pi / 180
+        return GPoint(cx + rx * math.cos(radians), cy - ry * math.sin(radians))
+
+# Private method: _contains_angle
 
     def _contains_angle(self, theta):
         start = min(self._start, self._start + self._sweep)
@@ -1923,11 +1851,11 @@ class GArc(GFillableObject):
         else:
             start = math.fmod(start, 360)
         if start + sweep > 360:
-            return theta >= start or theta <= start + sweep - 360
+            return (theta >= start or theta <= start + sweep - 360)
         else:
-            return theta >= start and theta <= start + sweep
+            return (theta >= start and theta <= start + sweep)
 
-    # Define camel-case names
+# Define camel-case names
 
     setStartAngle = set_start_angle
     getStartAngle = get_start_angle
@@ -1941,16 +1869,14 @@ class GArc(GFillableObject):
     getBounds = get_bounds
     getType = get_type
 
-
 # Class: GLine
-
 
 class GLine(GObject):
     """
     This graphical object subclass represents a line segment.
     """
 
-    # Constructor: GLine
+# Constructor: GLine
 
     def __init__(self, x0, y0, x1, y1):
         """
@@ -1965,7 +1891,7 @@ class GLine(GObject):
         self._dx = x1 - x0
         self._dy = y1 - y0
 
-    # Public method: set_start_point
+# Public method: set_start_point
 
     def set_start_point(self, x, y):
         """
@@ -1980,7 +1906,7 @@ class GLine(GObject):
         self._y = y
         self._update_points()
 
-    # Public method: get_start_point
+# Public method: get_start_point
 
     def get_start_point(self):
         """
@@ -1988,7 +1914,7 @@ class GLine(GObject):
         """
         return GPoint(self._x, self._y)
 
-    # Public method: set_end_point
+# Public method: set_end_point
 
     def set_end_point(self, x, y):
         """
@@ -1999,7 +1925,7 @@ class GLine(GObject):
         self._dy = y - self._y
         self._update_points()
 
-    # Public method: get_end_point
+# Public method: get_end_point
 
     def get_end_point(self):
         """
@@ -2007,7 +1933,7 @@ class GLine(GObject):
         """
         return GPoint(self._x + self._dx, self._y + self._dy)
 
-    # Overload method: contains
+# Overload method: contains
 
     def contains(self, x, y):
         """
@@ -2036,7 +1962,7 @@ class GLine(GObject):
         u = ((x - x0) * (x1 - x0) + (y - y0) * (y1 - y0)) / d
         return _dsq(x, y, x0 + u * (x1 - x0), y0 + u * (y1 - y0)) < t_squared
 
-    # Override method: get_type
+# Override method: get_type
 
     def get_type(self):
         """
@@ -2044,22 +1970,13 @@ class GLine(GObject):
         """
         return "GLine"
 
-    # Public method: __str__
+# Public method: __str__
 
     def __str__(self):
-        return (
-            "GLine("
-            + str(self._x)
-            + ", "
-            + str(self._y)
-            + ", "
-            + str(self._x + self._dx)
-            + ", "
-            + str(self._y + self._dy)
-            + ")"
-        )
+        return ("GLine(" + str(self._x) + ", " + str(self._y) + ", " +
+                str(self._x + self._dx) + ", " + str(self._y + self._dy) + ")")
 
-    # Override method: get_bounds
+# Override method: get_bounds
 
     def get_bounds(self):
         """
@@ -2071,7 +1988,7 @@ class GLine(GObject):
         y1 = max(self._y, self._y + self._dy)
         return GRectangle(x0, y0, x1 - x0, y1 - y0)
 
-    # Override method: _install
+# Override method: _install
 
     def _install(self, target, ctm):
         """
@@ -2087,16 +2004,12 @@ class GLine(GObject):
         x1 = p0._x + deltas._x
         y1 = p0._y + deltas._y
         dp = ctm.transform(self._dx, self._dy)
-        self._tkid = tkc.create_line(
-            p0._x,
-            p0._y,
-            p0._x + dp._x,
-            p0._y + dp._y,
-            width=self.get_line_width(),
-            fill=self._color,
-        )
+        self._tkid = tkc.create_line(p0._x, p0._y,
+                                     p0._x + dp._x, p0._y + dp._y,
+                                     width=self.get_line_width(),
+                                     fill=self._color)
 
-    # Override method: _update_points
+# Override method: _update_points
 
     def _update_points(self):
         """
@@ -2113,7 +2026,7 @@ class GLine(GObject):
         dp = ctm.transform(self._dx, self._dy)
         tkc.coords(self._tkid, p0._x, p0._y, p0._x + dp._x, p0._y + dp._y)
 
-    # Override method: _update_rotation
+# Override method: _update_rotation
 
     def _update_rotation(self):
         """
@@ -2121,7 +2034,7 @@ class GLine(GObject):
         """
         self._update_points()
 
-    # Define camel-case names
+# Define camel-case names
 
     setStartPoint = set_start_point
     getStartPoint = get_start_point
@@ -2129,9 +2042,7 @@ class GLine(GObject):
     getEndPoint = get_end_point
     getType = get_type
 
-
 # Class: GImage
-
 
 class GImage(GObject):
     """
@@ -2170,17 +2081,19 @@ class GImage(GObject):
                         ba[base + 1] = (argb >> 8) & 0xFF
                         ba[base + 2] = argb & 0xFF
                         ba[base + 3] = (argb >> 24) & 0xFF
-                self._image = Image.frombytes("RGBA", (width, height), bytes(ba))
+                self._image = Image.frombytes("RGBA", (width, height),
+                                              bytes(ba))
             self._photo = ImageTk.PhotoImage(self._image)
         else:
             if isinstance(source, str):
                 self._photo = tkinter.PhotoImage(file=source)
             else:
-                raise ImportError("get_pixel_array requires the " + "Pillow library")
+                raise ImportError("get_pixel_array requires the " +
+                                  "Pillow library")
         self.set_location(x, y)
         self._sf = 1
 
-    # Public method: get_bounds
+# Public method: get_bounds
 
     def get_bounds(self):
         """
@@ -2189,7 +2102,7 @@ class GImage(GObject):
         photo = self._photo
         return GRectangle(self._x, self._y, photo.width(), photo.height())
 
-    # Public method: get_pixel_array
+# Public method: get_pixel_array
 
     def get_pixel_array(self):
         """
@@ -2202,9 +2115,9 @@ class GImage(GObject):
         else:
             width = self._photo.width()
             height = self._photo.height()
-        pixels = height * [[0]]
+        pixels = height * [ [ 0 ] ]
         for y in range(height):
-            pixels[y] = width * [0]
+            pixels[y] = width * [ 0 ]
         if self._image_model == "PIL":
             data = image.convert("RGBA").getdata()
             i = 0
@@ -2215,7 +2128,7 @@ class GImage(GObject):
                     pixels[i][j] = p
         return pixels
 
-    # Override method: scale
+# Override method: scale
 
     def scale(self, sf):
         """
@@ -2228,7 +2141,7 @@ class GImage(GObject):
         if gw is not None:
             gw._rebuild()
 
-    # Override method: get_type
+# Override method: get_type
 
     def get_type(self):
         """
@@ -2236,7 +2149,7 @@ class GImage(GObject):
         """
         return "GImage"
 
-    # Override method: _install
+# Override method: _install
 
     def _install(self, target, ctm):
         """
@@ -2255,7 +2168,7 @@ class GImage(GObject):
             h = round(img.height * ctm._sf)
             img = img.resize((w, h), Image.ANTIALIAS)
         if rotation != 0:
-            w = img.width
+            w = img.width 
             h = img.height
             img = img.rotate(rotation, expand=True)
             if rotation > 0 and rotation <= 90:
@@ -2271,11 +2184,13 @@ class GImage(GObject):
                 y -= h * math.cos(theta)
             else:
                 theta = math.radians(rotation - 270)
-                x -= h * math.cos(theta)
+                x -= h * math.cos(theta)            
         self._photo = ImageTk.PhotoImage(img)
-        self._tkid = tkc.create_image(x, y, anchor=tkinter.NW, image=self._photo)
+        self._tkid = tkc.create_image(x, y,
+                                      anchor=tkinter.NW,
+                                      image=self._photo)
 
-    # Override method: _update_rotation
+# Override method: _update_rotation
 
     def _update_rotation(self):
         """
@@ -2285,7 +2200,7 @@ class GImage(GObject):
         if gw is not None:
             gw._rebuild()
 
-    # Static method: get_red
+# Static method: get_red
 
     @staticmethod
     def get_red(pixel):
@@ -2294,7 +2209,7 @@ class GImage(GObject):
         """
         return pixel >> 16 & 0xFF
 
-    # Static method: get_green
+# Static method: get_green
 
     @staticmethod
     def get_green(pixel):
@@ -2303,7 +2218,7 @@ class GImage(GObject):
         """
         return pixel >> 8 & 0xFF
 
-    # Static method: get_blue
+# Static method: get_blue
 
     @staticmethod
     def get_blue(pixel):
@@ -2312,7 +2227,7 @@ class GImage(GObject):
         """
         return pixel & 0xFF
 
-    # Static method: get_alpha
+# Static method: get_alpha
 
     @staticmethod
     def get_alpha(pixel):
@@ -2321,7 +2236,7 @@ class GImage(GObject):
         """
         return pixel >> 24 & 0xFF
 
-    # Static method: create_rgb_pixel
+# Static method: create_rgb_pixel
 
     @staticmethod
     def create_rgb_pixel(a1=None, a2=None, a3=None, a4=None, **kw):
@@ -2349,15 +2264,15 @@ class GImage(GObject):
             b = kw["blue"]
         return a << 24 | (r & 0xFF) << 16 | (g & 0xFF) << 8 | (b & 0xFF)
 
-    # Public method: __str__
+# Public method: __str__
 
     def __str__(self):
         if isinstance(self._image, str):
-            return 'GImage("' + self._source + '")'
+            return "GImage(\"" + self._source + "\")"
         else:
             return "GImage(<data>)"
 
-    # Define camel-case names
+# Define camel-case names
 
     getBounds = get_bounds
     getPixelArray = get_pixel_array
@@ -2368,20 +2283,18 @@ class GImage(GObject):
     getAlpha = get_alpha
     createRGBPixel = create_rgb_pixel
 
-
 # Class: GLabel
-
 
 class GLabel(GObject):
     """
     This graphical object subclass represents a text string.
     """
 
-    # Constants
+# Constants
 
     DEFAULT_FONT = "13pt 'Helvetica Neue','Helvetica','Arial','Sans-Serif'"
 
-    # Constructor: GLabel
+# Constructor: GLabel
 
     def __init__(self, text, x=0, y=0):
         """
@@ -2395,7 +2308,7 @@ class GLabel(GObject):
         self._tk_font = _decode_font(self._font)
         self.set_location(x, y)
 
-    # Public method: set_font
+# Public method: set_font
 
     def set_font(self, font):
         """
@@ -2408,7 +2321,7 @@ class GLabel(GObject):
         self._update_properties(font=self._tk_font)
         self._update_location()
 
-    # Public method: get_font
+# Public method: get_font
 
     def get_font(self):
         """
@@ -2416,7 +2329,7 @@ class GLabel(GObject):
         """
         return self._font
 
-    # Public method: set_label
+# Public method: set_label
 
     def set_label(self, text):
         """
@@ -2426,7 +2339,7 @@ class GLabel(GObject):
         self._text = text
         self._update_properties(text=text)
 
-    # Public method: get_label
+# Public method: get_label
 
     def get_label(self):
         """
@@ -2434,7 +2347,7 @@ class GLabel(GObject):
         """
         return self._text
 
-    # Public method: get_ascent
+# Public method: get_ascent
 
     def get_ascent(self):
         """
@@ -2443,7 +2356,7 @@ class GLabel(GObject):
         """
         return self._tk_font.metrics("ascent")
 
-    # Public method: get_descent
+# Public method: get_descent
 
     def get_descent(self):
         """
@@ -2452,7 +2365,7 @@ class GLabel(GObject):
         """
         return self._tk_font.metrics("descent")
 
-    # Override method: get_width
+# Override method: get_width
 
     def get_width(self):
         """
@@ -2460,7 +2373,7 @@ class GLabel(GObject):
         """
         return self._tk_font.measure(self._text)
 
-    # Override method: get_height
+# Override method: get_height
 
     def get_height(self):
         """
@@ -2468,17 +2381,16 @@ class GLabel(GObject):
         """
         return self._tk_font.metrics("linespace")
 
-    # Override method: get_bounds
+# Override method: get_bounds
 
     def get_bounds(self):
         """
         Returns the bounding rectangle for this object.
         """
-        return GRectangle(
-            self._x, self._y - self.get_ascent(), self.get_width(), self.get_height()
-        )
+        return GRectangle(self._x, self._y - self.get_ascent(),
+                          self.get_width(), self.get_height())
 
-    # Override method: get_type
+# Override method: get_type
 
     def get_type(self):
         """
@@ -2486,7 +2398,7 @@ class GLabel(GObject):
         """
         return "GLabel"
 
-    # Override method: _update_location
+# Override method: _update_location
 
     def _update_location(self):
         """
@@ -2510,7 +2422,7 @@ class GLabel(GObject):
         dy = (self._y + offy) - coords[1]
         tkc.move(self._tkid, dx, dy)
 
-    # Override method: _install
+# Override method: _install
 
     def _install(self, target, ctm):
         """
@@ -2520,35 +2432,32 @@ class GLabel(GObject):
         tkc = gw._canvas
         self._ctm_base = ctm
         pt = ctm.transform(self._x, self._y)
-        ctm = ctm.compose(_GTransform(rotation=self._angle, sf=self._sf))
-        dp = ctm.transform(0, self.get_height() - self.get_ascent())
+        dtm = _GTransform(rotation=self._angle, sf=self._sf)
+        ctm = ctm.compose(dtm)
+        dp = dtm.transform(0, self.get_height() - self.get_ascent())
         x = pt._x + dp._x
         y = pt._y + dp._y
-        baseline = y
+        baseline = y;
         if ctm.get_rotation() == 0:
-            self._tkid = tkc.create_text(
-                x,
-                baseline,
-                text=self._text,
-                font=self._tk_font,
-                fill=self._color,
-                anchor="sw",
-            )
+            self._tkid = tkc.create_text(x,
+                                         baseline,
+                                         text=self._text,
+                                         font=self._tk_font,
+                                         fill=self._color,
+                                         anchor="sw")
         else:
             try:
-                self._tkid = tkc.create_text(
-                    x,
-                    baseline,
-                    text=self._text,
-                    font=self._tk_font,
-                    fill=self._color,
-                    angle=ctm.get_rotation(),
-                    anchor="sw",
-                )
+                self._tkid = tkc.create_text(x,
+                                             baseline,
+                                             text=self._text,
+                                             font=self._tk_font,
+                                             fill=self._color,
+                                             angle=ctm.get_rotation(),
+                                             anchor="sw")
             except:
                 raise Exception("GLabel rotation requires tkinter v6")
 
-    # Override method: _update_rotation
+# Override method: _update_rotation
 
     def _update_rotation(self):
         """
@@ -2561,12 +2470,12 @@ class GLabel(GObject):
         ctm = ctm.compose(_GTransform(rotation=self._angle, sf=self._sf))
         self._update_properties(angle=ctm.get_rotation())
 
-    # Override method: __str__
+# Override method: __str__
 
     def __str__(self):
-        return 'GLabel("' + self._text + '")'
+        return "GLabel(\"" + self._text + "\")"
 
-    # Define camel-case names
+# Define camel-case names
 
     setFont = set_font
     getFont = get_font
@@ -2579,9 +2488,7 @@ class GLabel(GObject):
     getBounds = get_bounds
     getType = get_type
 
-
 # Class: GPolygon
-
 
 class GPolygon(GFillableObject):
     """
@@ -2592,7 +2499,7 @@ class GPolygon(GFillableObject):
     <code>add_edge</code>, and <code>add_polar_edge</code>.
     """
 
-    # Constructor: GPolygon
+# Constructor: GPolygon
 
     def __init__(self):
         """
@@ -2601,9 +2508,9 @@ class GPolygon(GFillableObject):
         GFillableObject.__init__(self)
         self._cx = None
         self._cy = None
-        self._vertices = []
+        self._vertices = [ ]
 
-    # Public method: add_vertex
+# Public method: add_vertex
 
     def add_vertex(self, x, y):
         """
@@ -2614,7 +2521,7 @@ class GPolygon(GFillableObject):
         self._cy = y
         self._vertices.append(GPoint(x, y))
 
-    # Public method: add_edge
+# Public method: add_edge
 
     def add_edge(self, dx, dy):
         """
@@ -2624,7 +2531,7 @@ class GPolygon(GFillableObject):
         """
         self.add_vertex(self._cx + dx, self._cy + dy)
 
-    # Public method: add_polar_edge
+# Public method: add_polar_edge
 
     def add_polar_edge(self, r, theta):
         """
@@ -2633,11 +2540,10 @@ class GPolygon(GFillableObject):
         in direction <code>theta</code>, measured in degrees counterclockwise
         from the +<i>x</i> axis.
         """
-        self.add_edge(
-            r * math.cos(theta * math.pi / 180), -r * math.sin(theta * math.pi / 180)
-        )
+        self.add_edge(r * math.cos(theta * math.pi / 180),
+                      -r * math.sin(theta * math.pi / 180))
 
-    # Public method: get_vertices
+# Public method: get_vertices
 
     def get_vertices(self):
         """
@@ -2645,7 +2551,7 @@ class GPolygon(GFillableObject):
         """
         return self._vertices
 
-    # Public method: get_bounds
+# Public method: get_bounds
 
     def get_bounds(self):
         """
@@ -2670,7 +2576,7 @@ class GPolygon(GFillableObject):
         y0 = self._y
         return GRectangle(x0 + x_min, y0 + y_min, x_max - x_min, y_max - y_min)
 
-    # Public method: contains
+# Public method: contains
 
     def contains(self, x, y):
         """
@@ -2694,9 +2600,9 @@ class GPolygon(GFillableObject):
                     crossings = crossings + 1
             x0 = x1
             y0 = y1
-        return crossings % 2 == 1
+        return (crossings % 2 == 1)
 
-    # Override method: get_type
+# Override method: get_type
 
     def get_type(self):
         """
@@ -2704,7 +2610,7 @@ class GPolygon(GFillableObject):
         """
         return "GPolygon"
 
-    # Override method: _update_location
+# Override method: _update_location
 
     def _update_location(self):
         """
@@ -2722,7 +2628,7 @@ class GPolygon(GFillableObject):
         dy = oldy - coords[1]
         tkc.move(self._tkid, dx, dy)
 
-    # Override method: _update_rotation
+# Override method: _update_rotation
 
     def _update_rotation(self):
         """
@@ -2735,7 +2641,7 @@ class GPolygon(GFillableObject):
         coords = self._create_coords()
         tkc.coords(self._tkid, *coords)
 
-    # Override method: _install
+# Override method: _install
 
     def _install(self, target, ctm):
         """
@@ -2748,26 +2654,25 @@ class GPolygon(GFillableObject):
         self._tkid = tkc.create_polygon(*coords, width=self._line_width)
         self._update_color()
 
-    # Override method: __str__
+# Override method: __str__
 
     def __str__(self):
         return "GPolygon(" + str(len(self._vertices)) + " vertices)"
 
-    # Private method: _create_coords
+# Private method: _create_coords
 
     def _create_coords(self):
         ctm = self._ctm_base
-        ctm = ctm.compose(
-            _GTransform(self._x, self._y, rotation=self._angle, sf=self._sf)
-        )
-        coords = []
+        ctm = ctm.compose(_GTransform(self._x, self._y,
+                                      rotation=self._angle, sf=self._sf))
+        coords = [ ]
         for pt in self._vertices:
             tp = ctm.transform(pt)
             coords.append(tp._x)
             coords.append(tp._y)
         return coords
 
-    # Define camel-case names
+# Define camel-case names
 
     addVertex = add_vertex
     addEdge = add_edge
@@ -2776,9 +2681,7 @@ class GPolygon(GFillableObject):
     getBounds = get_bounds
     getType = get_type
 
-
 # Class: GPoint
-
 
 class GPoint:
     """
@@ -2786,32 +2689,32 @@ class GPoint:
     a location on the graphics plane.
     """
 
-    # Constructor: GPoint
+# Constructor: GPoint
 
     def __init__(self, x=0, y=0):
         """Initializes a point with the specified coordinates."""
         self._x = x
         self._y = y
 
-    # Public method: get_x
+# Public method: get_x
 
     def get_x(self):
         """Returns the x component of the point."""
         return self._x
 
-    # Public method: get_y
+# Public method: get_y
 
     def get_y(self):
         """Returns the y component of the point."""
         return self._y
 
-    # Public method: __str__
+# Public method: __str__
 
     def __str__(self):
         """Returns the string representation of a point."""
         return "(" + str(self._x) + ", " + str(self._y) + ")"
 
-    # Public method: __eq__
+# Public method: __eq__
 
     def __eq__(self, other):
         """Returns a Boolean indicating whether two points are equal."""
@@ -2819,14 +2722,12 @@ class GPoint:
             return self._x == other._x and self._y == other._y
         return False
 
-    # Define camel-case names
+# Define camel-case names
 
     getX = get_x
     getY = get_y
 
-
 # Class: GDimension
-
 
 class GDimension:
     """
@@ -2834,7 +2735,7 @@ class GDimension:
     used to indicate the size of a graphical object.
     """
 
-    # Constructor: GDimension
+# Constructor: GDimension
 
     def __init__(self, width=0.0, height=0.0):
         """
@@ -2843,7 +2744,7 @@ class GDimension:
         self._width = width
         self._height = height
 
-    # Public method: get_width
+# Public method: get_width
 
     def get_width(self):
         """
@@ -2851,7 +2752,7 @@ class GDimension:
         """
         return self._width
 
-    # Public method: get_height
+# Public method: get_height
 
     def get_height(self):
         """
@@ -2859,26 +2760,25 @@ class GDimension:
         """
         return self._height
 
-    # Public method: __str__
+# Public method: __str__
 
     def __str__(self):
         return "(" + str(self._width) + ", " + str(self._height) + ")"
 
-    # Public method: __eq__
+# Public method: __eq__
 
     def __eq__(self, other):
         if isinstance(other, GDimension):
-            return self._width == other._width and self._height == other._height
+            return (self._width == other._width and
+                    self._height == other._height)
         return False
 
-    # Define camel-case names
+# Define camel-case names
 
     getWidth = get_width
     getHeight = get_height
 
-
 # Class: GRectangle
-
 
 class GRectangle:
     """
@@ -2886,7 +2786,7 @@ class GRectangle:
     used to represent the bounding box of a graphical object.
     """
 
-    # Constructor: GRectangle
+# Constructor: GRectangle
 
     def __init__(self, x=0.0, y=0.0, width=0.0, height=0.0):
         """
@@ -2898,7 +2798,7 @@ class GRectangle:
         self._width = width
         self._height = height
 
-    # Public method: get_x
+# Public method: get_x
 
     def get_x(self):
         """
@@ -2906,7 +2806,7 @@ class GRectangle:
         """
         return self._x
 
-    # Public method: get_y
+# Public method: get_y
 
     def get_y(self):
         """
@@ -2914,7 +2814,7 @@ class GRectangle:
         """
         return self._y
 
-    # Public method: get_width
+# Public method: get_width
 
     def get_width(self):
         """
@@ -2922,7 +2822,7 @@ class GRectangle:
         """
         return self._width
 
-    # Public method: get_height
+# Public method: get_height
 
     def get_height(self):
         """
@@ -2930,7 +2830,7 @@ class GRectangle:
         """
         return self._height
 
-    # Public method: is_empty
+# Public method: is_empty
 
     def is_empty(self):
         """
@@ -2938,7 +2838,7 @@ class GRectangle:
         """
         return self._width <= 0 or self._height <= 0
 
-    # Public method: contains
+# Public method: contains
 
     def contains(self, x, y):
         """
@@ -2949,41 +2849,28 @@ class GRectangle:
             x, y = x.get_x(), x.get_y()
         elif isinstance(x, dict):
             x, y = x.x, x.y
-        return (
-            x >= self._x
-            and y >= self._y
-            and x < self._x + self._width
-            and y < self._y + self._height
-        )
+        return (x >= self._x and
+                y >= self._y and
+                x < self._x + self._width and
+                y < self._y + self._height)
 
-    # Public method: __str__
+# Public method: __str__
 
     def __str__(self):
-        return (
-            "("
-            + str(self._x)
-            + ", "
-            + str(self._y)
-            + ", "
-            + str(self._width)
-            + ", "
-            + str(self._height)
-            + ")"
-        )
+        return ("(" + str(self._x) + ", " + str(self._y) + ", " +
+                str(self._width) + ", " + str(self._height) + ")")
 
-    # Public method: __eq__
+# Public method: __eq__
 
     def __eq__(self, other):
         if isinstance(other, GRectangle):
-            return (
-                self._x == other._x
-                and self._y == other._y
-                and self._width == other._width
-                and self._height == other._height
-            )
+            return (self._x == other._x and
+                    self._y == other._y and
+                    self._width == other._width and
+                    self._height == other._height)
         return False
 
-    # Define camel-case names
+# Define camel-case names
 
     getX = get_x
     getY = get_y
@@ -2991,9 +2878,7 @@ class GRectangle:
     getHeight = get_height
     isEmpty = is_empty
 
-
 # Class: GTimer
-
 
 class GTimer:
     """
@@ -3001,7 +2886,7 @@ class GTimer:
     both one-shot and interval timers.
     """
 
-    # Constructor: GTimer
+# Constructor: GTimer
 
     def __init__(self, gw, fn, delay):
         """
@@ -3014,7 +2899,7 @@ class GTimer:
         self._after_id = None
         gw._timers.append(self)
 
-    # Public method: set_repeats
+# Public method: set_repeats
 
     def set_repeats(self, flag):
         """
@@ -3022,7 +2907,7 @@ class GTimer:
         """
         self._repeats = flag
 
-    # Public method: start
+# Public method: start
 
     def start(self):
         """
@@ -3031,7 +2916,7 @@ class GTimer:
         tkc = self._gw._canvas
         self._after_id = tkc.after(self._delay, self._timer_ticked)
 
-    # Public method: stop
+# Public method: stop
 
     def stop(self):
         """
@@ -3042,7 +2927,7 @@ class GTimer:
             tkc.after_cancel(self._after_id)
             self._after_id = None
 
-    # Private method: _timer_ticked
+# Private method: _timer_ticked
 
     def _timer_ticked(self):
         self._fn()
@@ -3050,9 +2935,7 @@ class GTimer:
             tkc = self._gw._canvas
             self._after_id = tkc.after(self._delay, self._timer_ticked)
 
-
 # Class: GEvent
-
 
 class GEvent(object):
     """
@@ -3060,7 +2943,7 @@ class GEvent(object):
     package.
     """
 
-    # Constructor: GEvent
+# Constructor: GEvent
 
     def __init__(self):
         """
@@ -3068,7 +2951,7 @@ class GEvent(object):
         not be called by clients.
         """
 
-    # Public abstract method: get_source
+# Public abstract method: get_source
 
     def get_source(self):
         """
@@ -3077,16 +2960,14 @@ class GEvent(object):
         """
         raise Exception("get_source is not defined in the base class")
 
-
 # Class: GMouseEvent
-
 
 class GMouseEvent(GEvent):
     """
     This class maintains the data for a mouse event.
     """
 
-    # Constructor: GMouseEvent
+# Constructor: GMouseEvent
 
     def __init__(self, tke):
         """
@@ -3096,7 +2977,7 @@ class GMouseEvent(GEvent):
         self._x = tke.x
         self._y = tke.y
 
-    # Public method: get_x
+# Public method: get_x
 
     def get_x(self):
         """
@@ -3104,7 +2985,7 @@ class GMouseEvent(GEvent):
         """
         return self._x
 
-    # Public method: get_y
+# Public method: get_y
 
     def get_y(self):
         """
@@ -3112,7 +2993,7 @@ class GMouseEvent(GEvent):
         """
         return self._y
 
-    # Override method: get_source
+# Override method: get_source
 
     def get_source(self):
         """
@@ -3121,22 +3002,20 @@ class GMouseEvent(GEvent):
         """
         return tkinter._root
 
-    # Define camel-class methods
+# Define camel-class methods
 
     getX = get_x
     getY = get_y
     getSource = get_source
 
-
 # Class: GKeyEvent
-
 
 class GKeyEvent(GEvent):
     """
     This class maintains the data for a key event.
     """
 
-    # Constructor: GKeyEvent
+# Constructor: GKeyEvent
 
     def __init__(self, tke):
         """
@@ -3153,7 +3032,7 @@ class GKeyEvent(GEvent):
         else:
             self._key = tke.char
 
-    # Public method: get_key
+# Public method: get_key
 
     def get_key(self):
         """
@@ -3164,7 +3043,7 @@ class GKeyEvent(GEvent):
         """
         return self._key
 
-    # Override method: get_source
+# Override method: get_source
 
     def get_source(self):
         """
@@ -3173,14 +3052,12 @@ class GKeyEvent(GEvent):
         """
         return tkinter._root
 
-    # Define camel-class methods
+# Define camel-class methods
 
     getKey = get_key
     getSource = get_source
 
-
 # Class: GState
-
 
 class GState:
     """
@@ -3194,7 +3071,7 @@ class GState:
     the nonlocal declaration.
     """
 
-    # Constructor: GState
+# Constructor: GState
 
     def __init__(self):
         """
@@ -3202,7 +3079,7 @@ class GState:
         """
         pass
 
-    # Override method: __str__
+# Override method: __str__
 
     def __str__(self):
         s = ""
@@ -3213,9 +3090,7 @@ class GState:
                 s += str(key) + ":" + repr(self.__dict__[key])
         return "GState(" + s + ")"
 
-
 # Private function: get_screen_width
-
 
 def _get_screen_width():
     """
@@ -3223,9 +3098,7 @@ def _get_screen_width():
     """
     return tkinter._root.winfo_screenwidth()
 
-
 # Private function: get_screen_height
-
 
 def _get_screen_height():
     """
@@ -3233,9 +3106,7 @@ def _get_screen_height():
     """
     return tkinter._root.winfo_screenheight()
 
-
 # Private function: convert_color_to_rgb
-
 
 def _convert_color_to_rgb(color_name):
     """
@@ -3252,9 +3123,7 @@ def _convert_color_to_rgb(color_name):
         raise Exception("set_color: Illegal color - " + color_name)
     return COLOR_TABLE[name]
 
-
 # Private function: convert_rgb_to_color
-
 
 def _convert_rgb_to_color(rgb):
     """
@@ -3266,9 +3135,7 @@ def _convert_rgb_to_color(rgb):
     hex_string = hex(0xFF000000 | rgb)
     return "#" + hex_string[4:].upper()
 
-
 # Private function: exit_graphics
-
 
 def _exit_graphics():
     """
@@ -3277,9 +3144,7 @@ def _exit_graphics():
     """
     sys.exit()
 
-
 # Private function: get_program_name
-
 
 def _get_program_name():
     """
@@ -3309,15 +3174,13 @@ def _get_program_name():
         return "Graphics Window"
     if name is None:
         return "Graphics Window"
-    name = name[name.rfind("/") + 1 :]
+    name = name[name.rfind("/") + 1:]
     dot = name.find(".")
     if dot != -1:
         name = name[:dot]
     return name
 
-
 # Private function: canonical_color_name
-
 
 def _canonical_color_name(str):
     result = ""
@@ -3326,9 +3189,7 @@ def _canonical_color_name(str):
             result += char.lower()
     return result
 
-
 # Private function: dsq
-
 
 def _dsq(x0, y0, x1, y1):
     """
@@ -3336,9 +3197,7 @@ def _dsq(x0, y0, x1, y1):
     """
     return (x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)
 
-
 # Private function: decode_font
-
 
 def _decode_font(name):
     """
@@ -3350,7 +3209,6 @@ def _decode_font(name):
     if font is None:
         font = _parse_java_font(name)
     return font
-
 
 def _parse_js_font(name):
     """
@@ -3384,12 +3242,12 @@ def _parse_js_font(name):
     if len(families) == 0:
         return None
     for family in families:
-        if family.startswith("'") or family.startswith('"'):
+        if family.startswith("'") or family.startswith("\""):
             family = family[1:-1]
         # // Add code to test for existence of font family
-        return tk_font.Font(family=family, size=-size, weight=weight, slant=slant)
+        return tk_font.Font(family=family, size=-size,
+                            weight=weight, slant=slant)
     return None
-
 
 def _parse_java_font(name):
     """
@@ -3409,8 +3267,8 @@ def _parse_java_font(name):
             weight = "bold"
         if "italic" in components[1]:
             slant = "italic"
-    return tk_font.Font(family=family, size=-size, weight=weight, slant=slant)
-
+    return tk_font.Font(family=family, size=-size,
+                        weight=weight, slant=slant)
 
 def _parse_js_units(spec):
     ux = len(spec)
@@ -3427,16 +3285,19 @@ def _parse_js_units(spec):
     else:
         return round(value)
 
-
 # Private class: _GTransform
 
-
 class _GTransform:
+
     def __init__(self, tx=0.0, ty=0.0, rotation=0.0, sf=1.0):
         self._tx = tx
         self._ty = ty
         self._rotation = rotation
         self._sf = sf
+
+    def __str__(self):
+       return "{{tx:{} ty:{} rot:{} sf:{}}}".format(self._tx, self._ty,
+                                                    self._rotation, self._sf)
 
     def get_tx(self):
         return self._tx
@@ -3468,16 +3329,12 @@ class _GTransform:
         return GPoint(x1, y1)
 
     def compose(self, transform):
-        return _GTransform(
-            self._tx + transform.get_tx(),
-            self._ty + transform.get_ty(),
-            rotation=self._rotation + transform._rotation,
-            sf=self._sf * transform._sf,
-        )
-
+        return _GTransform(self._tx + transform.get_tx(),
+                           self._ty + transform.get_ty(),
+                           rotation=self._rotation + transform._rotation,
+                           sf=self._sf * transform._sf)
 
 # Private class: _EventManager
-
 
 class _EventManager:
 
@@ -3494,13 +3351,13 @@ class _EventManager:
         self._motion_handler = None
         self._drag_handler = None
         self._key_handler = None
-        self._click_listeners = []
-        self._dblclick_listeners = []
-        self._mousedown_listeners = []
-        self._mouseup_listeners = []
-        self._mousemove_listeners = []
-        self._drag_listeners = []
-        self._key_listeners = []
+        self._click_listeners = [ ]
+        self._dblclick_listeners = [ ]
+        self._mousedown_listeners = [ ]
+        self._mouseup_listeners = [ ]
+        self._mousemove_listeners = [ ]
+        self._drag_listeners = [ ]
+        self._key_listeners = [ ]
         self._down_x = None
         self._down_y = None
         self._down_time = None
@@ -3600,7 +3457,6 @@ class _EventManager:
                 self._key_listeners.append(fn)
         else:
             raise Exception("Illegal event type: " + type)
-
 
 # Constants
 
@@ -3770,7 +3626,7 @@ COLOR_TABLE = {
     "color.blue": 0x0000FF,
     "color.magenta": 0xFF00FF,
     "color.orange": 0xFFC800,
-    "color.pink": 0xFFAFAF,
+    "color.pink": 0xFFAFAF
 }
 
 # Check for successful compilation
