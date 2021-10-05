@@ -12,7 +12,7 @@ def encrypt(message, key):
 
     Inputs:
         message (string): message to be encrypted
-        key (string): 26-character string
+        key (string): 26-character string (upper or lower case)
     Outputs:
         (string): the encrypted message
     """
@@ -30,6 +30,7 @@ def encrypt(message, key):
 
 if __name__ == '__main__':
     KEY = "QWERTYUIOPASDFGHJKLZXCVBNM"
+    # KEY = "qwertyuiopasdfghjklzxcvbnm" # alternative key to test lower case key
     print(encrypt("Squeamish Ossifrage", KEY))
     print(encrypt("ABC - 123", KEY))
     print(encrypt("Isn't this great?", KEY))

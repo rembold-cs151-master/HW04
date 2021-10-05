@@ -6,10 +6,16 @@
 
 
 import pytest
-import os
+from pgl import GCompound
 
+from Prob1 import create_cube
 from Prob2 import to_obenglobish
 from Prob3 import encrypt
+
+class Test_Prob1:
+    def test_create_cube_output(self):
+        student = create_cube()
+        assert isinstance(student, GCompound), f"Your create_cube function should be returning a GCompound, but is instead returning a {type(student)}."
 
 class Test_Prob2:
     def test_returns_string(self):
@@ -58,8 +64,15 @@ class Test_Prob3:
             assert student == s, f"{w} encrypted to {student} with key={self.KEY} but should have been {s}."
 
     def test_capitalization(self):
-        msgs = ["Hello", "Fishsticks and FooD", "Give me that NOW"]
-        sols = ["Aciit", "Rojajkofuj phg RttG", "Lobc dc kapk HTM"]
+        msgs = ["Hello", "Fishsticks", "BoomBoom"]
+        sols = ["Aciit", "Rojajkofuj", "YttdYttd"]
+        for w,s in zip(msgs, sols):
+            student = encrypt(w, self.KEY)
+            assert student == s, f"{w} encrypted to {student} with key={self.KEY} but should have been {s}."
+
+    def test_all_combined(self):
+        msgs = ["Hello??", "Fishsticks and FooD", "Give me that NOW!"]
+        sols = ["Aciit??", "Rojajkofuj phg RttG", "Lobc dc kapk HTM!"]
         for w,s in zip(msgs, sols):
             student = encrypt(w, self.KEY)
             assert student == s, f"{w} encrypted to {student} with key={self.KEY} but should have been {s}."

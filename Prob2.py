@@ -5,9 +5,7 @@
 ##################################################
 
 def to_obenglobish(word):
-    """
-    Function to convert an English word into its Obenglobish
-    equivalent.
+    """ Converts an English word into its Obenglobish equivalent.
 
     Inputs:
         word (string): word to be translated to Obenglobish
