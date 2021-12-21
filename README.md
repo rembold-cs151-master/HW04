@@ -2,7 +2,7 @@
 <details>
 <summary><em>metadata</em></summary>
 Category: problem-set<br>
-Points: 20<br>
+Points: 9<br>
 Due: 2021-10-11<br>
 </details>
 
