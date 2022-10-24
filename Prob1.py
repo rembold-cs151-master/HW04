@@ -4,33 +4,15 @@
 # Estimate of time spent (hr):
 ##################################################
 
-from pgl import GWindow, GCompound, GPolygon
+def to_obenglobish(word):
+    """ Converts an English word into its Obenglobish equivalent.
 
-
-def create_cube():
-    """ Returns a cube GCompound
-
-    Should return a GCompound which has had 3 GPolygons added to it to form a cube
-    centered at the GCompound origin.
-
+    Inputs:
+        word (string): word to be translated to Obenglobish
     Outputs:
-        (GCompound): a GCompound containing all the pieces of the cube
+        (string): the Obenglobish translation of the word
     """
-    L = 40 # length of the sides
-    # Your code here!
-
-
-
-
-def paint_cubes():
-    """ Creates a window in which cubes can be added via clicks
-
-    Main function to create a GWindow and then add a cube 'paintbrush' which can be
-    used to click and add more cubes to the screen. All code to create the window,
-    initial cube, event listeners and callbacks should be defined within this function.
-    """
-    pass # Your code here (and remove the pass)!
-
+    pass # Add your code below and remove this pass!
 
 
 
@@ -39,4 +21,8 @@ def paint_cubes():
 
 
 if __name__ == '__main__':
-    paint_cubes()
+    # Some testing printouts for your use!
+    print(f"to_obenglobish('english') gives {to_obenglobish('english')}.")
+    print(f"to_obenglobish('gooiest') gives {to_obenglobish('gooiest')}.")
+    print(f"to_obenglobish('amaze')   gives {to_obenglobish('amaze')}.")
+    print(f"to_obenglobish('rot')     gives {to_obenglobish('rot')}.")
