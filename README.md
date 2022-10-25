@@ -10,4 +10,4 @@ The homework pdf has the basic instructions, and you should definitely read the 
  - [ ] Code for the **extra credit** Problem 3 should be done in `Prob3.py`.
 
 #### Testing
-Automated tests are coming later today!
+Automated tests have been added from Problem 1 and Problem 2 (Parts A and B). Part C of Problem 2 is graphical and thus is difficult to write an autochecker for, so you'll have to judge and test that yourself.
