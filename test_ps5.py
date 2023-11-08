@@ -73,7 +73,8 @@ class Test_Prob2:
         sq1 = [[16,3,2,13],[5,10,11,8],[9,6,7,12],[4,15,14,1]]
         sq2 = [[8,1,6],[3,5,7],[4,9,2]]
         sq3 = [[1,23,16,4,21],[15,14,7,18,11],[24,17,13,9,2],[20,8,19,12,6],[5,3,10,22,25]]
-        for sq in [sq1, sq2, sq3]:
+        sq6 = [[18,11,16],[13,15,17],[14,19,12]]
+        for sq in [sq1, sq2, sq3, sq6]:
             assert Prob2.is_magic_square(sq), f"The square {sq} is a magic square but your function says it is not!"
 
     def test_incorrect_squares(self):
