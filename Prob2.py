@@ -1,6 +1,7 @@
 ##################################################
 # Name:
 # Collaborators:
+# Gen AI transcript (if used):
 # Estimate of time spent (hr):
 ##################################################
 
@@ -22,7 +23,8 @@ def is_magic_square(array):
 
 
 if __name__ == '__main__':
-    # Test other squares as well!
+    # Test other squares as well! 
+    # A good source of valid squares is: https://en.wikipedia.org/wiki/Magic_square
     small = [[8,1,6],[3,5,7],[4,9,2]]
     print(is_magic_square(small))
 

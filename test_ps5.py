@@ -14,7 +14,7 @@ class Test_Prob1:
         imaxes = [10, 26, 8]
         for i in imaxes:
             student = Prob1.create_histogram_array(i,[1,2,3])
-            assert len(student) == i, f"You are not returning a list of the proper length. An imax of {i} is giving a list of length {len(student)}."
+            assert len(student) == i, f"You are not returning a list of the proper length. A num_2_count of {i} is giving a list of length {len(student)}."
 
     def test_PartA_returns_correct_counts(self):
         data = [
