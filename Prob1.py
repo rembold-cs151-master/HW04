@@ -53,7 +53,7 @@ def test_create_histogram_graph():
     from pgl import GWindow
     WIDTH, HEIGHT = 800, 600
     gw = GWindow(WIDTH, HEIGHT)
-    PI_DIGITS = [3,1,4,1,5,9,2,6,5,3,5,5,8,9,7,9]
+    PI_DIGITS = [3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3]
     array = create_histogram_array(10, PI_DIGITS)
     graph = create_histogram_graph(array, WIDTH, HEIGHT)
     gw.add(graph)
@@ -65,7 +65,7 @@ def test_create_histogram_graph():
 
 if __name__ == '__main__':
     # Some testing printouts for your use!
-    PI_DIGITS = [3,1,4,1,5,9,2,6,5,3,5,5,8,9,7,9]
+    PI_DIGITS = [3,1,4,1,5,9,2,6,5,3,5,8,9,7,9,3]
     array = create_histogram_array(10, PI_DIGITS)
     print(array)
     # print_histogram(array) # uncomment once you have defined print_histogram
