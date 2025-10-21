@@ -5,12 +5,12 @@
 # Estimate of time spent (hr):
 ##################################################
 
-def create_histogram_array(num_2_count, data):
-    """ Computes a histogram of the entries of data given imax different bins (starting
-    from index 0 and going up to imax - 1).
+def create_histogram_array(num2count, data):
+    """ Computes a histogram of the entries of data given num2count different bins (starting
+    from index 0 and going up to num2count - 1).
 
     Inputs:
-        num_2_count (integer): number of possible different elements to count
+        num2count (integer): number of possible different elements to count
         data (list of integers): the list of data to compute a histogram for
     Outputs:
         (list of integers): the histogram array
