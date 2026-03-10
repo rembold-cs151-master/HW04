@@ -9,10 +9,10 @@ def create_histogram_array(num2count, data):
     """ Computes a histogram of the entries of data given num2count different bins (starting
     from index 0 and going up to num2count - 1).
 
-    Inputs:
+    Args:
         num2count (integer): number of possible different elements to count
         data (list of integers): the list of data to compute a histogram for
-    Outputs:
+    Returns:
         (list of integers): the histogram array
     """
     pass # Add your code below and remove this pass!
@@ -22,9 +22,9 @@ def create_histogram_array(num2count, data):
 def print_histogram(array):
     """ Prints the counts of a histogram given by array to the screen. 
 
-    Inputs:
+    Args:
         array (list of integers): a histogram array
-    Outputs:
+    Returns:
         None
     """
     pass # Add your code below and remove this pass!
@@ -35,11 +35,11 @@ def create_histogram_graph(array, width, height):
     """ Creates and returns a GCompound wherein GRects have been used to represent
     the amount in each histogram index.
 
-    Inputs:
+    Args:
         array (list of integers): a histogram array
         width (integer): the desired width of the GCompound
         height (integer): the desired height of the GCompound
-    Outputs:
+    Returns:
         (GCompound): a single GCompound with the necessary rectangles added
     """
     from pgl import GCompound, GRect

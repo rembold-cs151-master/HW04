@@ -6,4 +6,4 @@ The homework guide has the basic instructions, and you should definitely read th
  - [ ] Code for Problem 2 should be done in the `Prob2.py` file already in the repository. Again, I've set up the basic function definitions for you, and you largely just need to fill them in.
 
 #### Testing
-Automated tests have been added from Problem 1 (Parts A and B) and Problem 2. Part C of Problem 1 is graphical and thus is difficult to write an autochecker for, so you'll have to judge and test that yourself.
+Automated tests have been added from Problem 1 (Parts A and B) and Problem 2. Part C of Problem 1 is graphical and thus is difficult to write an auto-checker for, so you'll have to judge and test that yourself.

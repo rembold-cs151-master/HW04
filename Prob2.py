@@ -11,9 +11,9 @@ def is_magic_square(array):
     creates a magic square by checking that the sum of all the rows, columns, and
     both diagonals is equal.
 
-    Inputs:
+    Args:
         array (list of lists of integers): the array to evaluate
-    Outputs:
+    Returns:
         (boolean): whether the array forms a magic square
     """
     pass # Your code here!
